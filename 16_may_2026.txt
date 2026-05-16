@@ -1,0 +1,43 @@
+show databases;
+drop database vitcampus;
+create database vitcampus;
+
+use vitcampus;
+create table cse(
+sid int8,
+sname varchar(50),
+smarks int1
+
+);
+
+show tables from vitcampus;
+select*from cse;
+insert into cse value (101,'Simon', 80);
+insert into cse value (102,'Sakshi',70);
+insert into cse value (103,'Sumit',52);
+insert into cse value (104,'Sam',61);
+insert into cse value (104,'Harry',90);
+
+create table eee(
+sid int8,
+sname varchar(50),
+projectmarks int1
+
+);
+select*from eee;
+insert into eee value (101,'Simon',80);
+insert into eee value (102,'Sikshi',75);
+insert into eee value (103,'Sukhi',59);
+insert into cse value (104,'Samul',69);
+insert into cse value (104,'Hanry',98);
+
+create table grades(
+sid int8,
+sname varchar(50),
+grades varchar(3)
+);
+insert into grades value (101,'Simon','A');
+insert into grades value (102,'Sikshi','B');
+insert into grades value (103,'Sukhi','C');
+insert into grades value (104,'Samul','D');
+insert into grades value (104,'Hanry','S');
