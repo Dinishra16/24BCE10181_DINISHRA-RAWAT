@@ -1,0 +1,77 @@
+
+use vitcampus;
+CREATE TABLE Persons (
+    ID int NOT NULL,
+    LastName varchar(255) unique not null,
+    FirstName varchar(255) NOT NULL,
+    Age int
+    CHECK(AGE>=18 AND AGE<=23)
+);
+desc persons;
+INSERT INTO PERSONS VALUES(101,'V', 'B',35);
+INSERT INTO PERSONS VALUES(102,'W', 'C',15);
+INSERT INTO PERSONS VALUES(103,'X','Y', 23);
+SELECT * FROM PERSONS;
+ALTER TABLE PERSONS ADD UNIQUE (AGE) ;
+ALTER TABLE Persons DROP CONSTRAINT Age;
+
+
+
+CREATE TABLE Person (
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    CHECK (Age>=18)
+);
+ALTER TABLE Person
+ADD CHECK (Age>=18);
+INSERT INTO PERSON VALUES(101,'V', 'B',35);
+INSERT INTO PERSON VALUES(102,'W', 'C',25);
+INSERT INTO PERSON VALUES(103,'X','Y', 23);
+SELECT * FROM PERSON;
+
+
+
+CREATE TABLE Person1 (
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    CITY VARCHAR(255) DEFAULT 'HLD'
+);
+DESC PERSON1;
+
+
+
+CREATE TABLE category(
+    cid int primary key,
+    cname varchar(100) not null
+);
+INSERT INTO category VALUES (101,'electronics'), (102,'Home App');
+
+
+CREATE TABLE products (
+    pid int primary key,
+    pname varchar(100) NOT NULL,
+    cid int,
+    FOREIGN KEY (cid) REFERENCES category(cid)
+);
+CREATE TABLE category(
+    cid int primary key,
+    cname varchar(100) not null
+);
+INSERT INTO category VALUES
+(101,'electronics'),
+(102,'Home App');
+CREATE TABLE products (
+    pid int primary key,
+    pname varchar(100) NOT NULL,
+    cid int,
+    FOREIGN KEY (cid) REFERENCES category(cid)
+);
+INSERT INTO products VALUES
+(504,'Power Bank Samsung',101);
+INSERT INTO products VALUES
+(505,'HP',102);
+SELECT * FROM products;
