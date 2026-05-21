@@ -1,0 +1,116 @@
+
+use vitcampus;
+CREATE TABLE Persons (
+    ID int NOT NULL,
+    LastName varchar(255) unique not null,
+    FirstName varchar(255) NOT NULL,
+    Age int
+    CHECK(AGE>=18 AND AGE<=23)
+);
+desc persons;
+INSERT INTO PERSONS VALUES(101,'V', 'B',35);
+INSERT INTO PERSONS VALUES(102,'W', 'C',15);
+INSERT INTO PERSONS VALUES(103,'X','Y', 23);
+SELECT * FROM PERSONS;
+ALTER TABLE PERSONS ADD UNIQUE (AGE) ;
+ALTER TABLE Persons DROP CONSTRAINT Age;
+
+
+
+CREATE TABLE Person (
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    CHECK (Age>=18)
+);
+ALTER TABLE Person
+ADD CHECK (Age>=18);
+INSERT INTO PERSON VALUES(101,'V', 'B',35);
+INSERT INTO PERSON VALUES(102,'W', 'C',25);
+INSERT INTO PERSON VALUES(103,'X','Y', 23);
+SELECT * FROM PERSON;
+
+
+
+CREATE TABLE Person1 (
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    CITY VARCHAR(255) DEFAULT 'HLD'
+);
+DESC PERSON1;
+
+
+CREATE TABLE categorys (
+    cid INT PRIMARY KEY,
+    cname VARCHAR(100)
+);
+
+CREATE TABLE product (
+    pid INT PRIMARY KEY,
+    pname VARCHAR(100) NOT NULL,
+    cid INT,
+    FOREIGN KEY (cid) REFERENCES category(cid)
+    ON DELETE CASCADE
+);
+
+
+INSERT INTO categorys VALUES
+(1, 'Electronics'),
+(2, 'Clothing');
+
+
+INSERT INTO product VALUES
+(101, 'Laptop', 1),
+(102, 'Mobile', 1),
+(103, 'Shirt', 2);
+
+SELECT * FROM categorys;
+SELECT * FROM product;
+
+
+DELETE FROM categorys
+WHERE cid = 2;
+
+
+SELECT * FROM categorys;
+SELECT * FROM product;
+
+SELECT * FROM worker;
+select first_name, salary,department from worker
+where department= 'admin' order by salary asc;
+
+select count(worker_id),department from worker 
+group by department order by department asc; 
+
+select department, sum(salary) from worker
+group by department order by department asc;
+
+select department, sum(department) from worker
+group by department having count(department)>=3  order by department asc;
+
+select department, count(salary) from worker
+group by department having count(salary)<= 300000
+order by department;
+
+SELECT * FROM worker limit 2 offset 3;
+
+CREATE TABLE topper (
+    worker_id INT,
+    FOREIGN KEY (worker_id)
+    REFERENCES worker(worker_id)
+);
+insert into topper values (1),(2),(3);
+
+select * from topper;
+select first_name, department from worker
+where worker_id in (select worker_id from toppers);
+
+select department, sum(salary) from worker
+group by department order by sum(salary) limit 2;
+
+select salary, department from worker
+where department = 'admin' order by salary desc 
+limit 1 offset 1;
