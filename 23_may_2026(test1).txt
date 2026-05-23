@@ -1,0 +1,107 @@
+-- 1.[JOINS] List the name of each employee along with their job title and department name.
+
+
+select employees.name ,jobs.job_title ,departments.dept_name from employees join jobs on employees.job_id = jobs.job_id 
+join departments on employees.dept_id=departments.dept_id;
+
+
+-- 2.[SUBQUERY] Find all employees whose salary is higher than the average salary of the 'IT' department.
+
+select name ,salary from employees 
+where salary>(select avg(salary)from employees where dept_id = (select dept_id from departments where dept_name= 'it'));
+
+
+
+-- 3.[GROUP BY] Calculate the total salary expenditure for each department name (not ID).
+
+
+select departments.dept_name ,sum(employees.salary)as totale_salary from employees
+ join departments on employees.dept_id= departments.dept_id group by departments.dept_name ;
+
+
+
+-- 5.[SELF JOIN] Retrieve a list of employee names and their respective manager's names.
+
+
+select employees.name as employ_name , manager.name as manage_name from employees left join employees manager on employees.manager_id= manager.emp_id;
+
+-- 6.[ORDER BY] Find the top 3 highest-paid employees and list them in descending order.
+
+
+select name ,salary from employees order by salary desc limit 3;
+
+
+
+-- 8.[GROUP BY] Find the number of employees hired each year.
+
+
+select year(hire_date )as hire_year,count(*)as total_employ_this_year from employees group by year(hire_date);
+
+-- 9.[HAVING] List job titles where the maximum salary of an employee in that role is less than 100,000.
+
+
+
+select jobs.job_title ,max(employees.salary) as max_emp_sal from employees join jobs on employees.job_id = jobs.job_id 
+group by jobs.job_title having max(employees.salary)< 100000;
+
+
+-- 10.[SUBQUERY] Find the names of employees who work in the same department as 'David'.
+
+
+select name from employees where dept_id = (select dept_id from employees where name ='David');
+
+
+-- 11.[MULTI-TABLE JOIN] Show all department names even if they have no employees assigned to them. ~
+
+
+-- 12.[COMPLEX FILTER] Find employees who were hired between 2018 and 2020 and earn more than 60,000.
+
+select name , salary , hire_date from employees where hire_date between '2018-01-01' and '20-01-01' and salary > 60000;
+
+
+-- 14.[JOINS] Find the job title and salary of the employee with ID 504.
+
+select jobs.job_title , employees.salary from employees join jobs on employees.job_id= jobs.job_id where employees.emp_id = 504;
+
+
+-- 15.[GROUP BY] For each manager (by ID), find the minimum salary of the people reporting to them.
+
+select manager_id , min(salary) as min_sal from employees where manager_id group by manager_id;
+
+-- 17.[AGGREGATION] Find the difference between the highest and lowest salary in the company.
+
+select max(salary)-min(salary) as diff from employees;
+
+-- 19.[HAVING] Identify managers (by ID) who manage more than 2 people.
+
+
+select manager_id , count(*) as total_people from employees where manager_id group by manager_id having count(*) >2;
+
+-- 20.[SUBQUERY] Find the employee(s) with the third-highest salary. ~
+
+
+select name ,salry from employees order by salary desc limit 1 offset 2 ;
+
+-- 21.[LEFT JOIN] List all job titles and the number of employees currently holding that job.
+
+
+
+select jobs.job.title , count(employees.emp_id) as total_employees from jobs left join employees on jobs.job_id = employees.job_id group by jobs.job.title;
+
+-- 22.[JOIN + LIKE] Find employees in the 'Finance' department whose names contain the letter 'i'.
+
+select employees.name from employees join departments on employees.dept_id = departments.dept_id where departments.dept_name= 'finance' and employees.name like '%i%';
+
+-- 24.[SUBQUERY] List the name of the department that pays the highest total salary.
+
+select departments.dept_name, sum(employees.salary) as total_sal from employees join departments on employees.dept_name = departments.dept_id order by total_salary desc limit 1;
+
+-- 25.[JOINS] Find all employees who report to 'Charlie'.
+
+select name from employees where manager_id = (select emp_id from employees where name = 'charlie');
+
+
+
+
+
+
