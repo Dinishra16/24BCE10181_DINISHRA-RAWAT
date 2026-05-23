@@ -1,0 +1,93 @@
+-- 1.List the Employee Name, their Department Name, and the Location Name for all employees.
+
+select   employee_name ,dept_name,   location_id from employees join   departments on employees.dept_id=departments.dept_id ;
+
+
+
+--  3.Find the names of Employees who have worked on a project with Client Name 'GlobalTech Solutions'. List the Employee Name and Project Name.
+
+
+select employee_name, project_name from employees join assignments on employees.employee_id =assignments.employee_id join projects on assignments.project_id=projects.project_id where client_name='GlobalTech solutions';
+
+-- 4.List all Departments that have no Employees currently assigned to them.~
+
+
+
+select  dept_name from departments left join employees on departments.dept_id=employees.dept_id  where employee_id   ;
+
+
+-- 6.Calculate the Average Hours Worked per Employee across all projects. List the Employee Name and the average hours.
+
+
+
+select employee_name , avg(hours_worked) as avg_hrs from employees join assignments on employees.employee_id =assignments.employee_id
+group by   employee_name ;
+
+-- 7.Find the Department Name(s) that have an average salary above the company-wide average salary. ~
+
+
+select dept_name from employees
+ join departments on employees.dept_id = departments.dept_id group by dept_name 
+ having avg(salary) >( select avg(salary) from employees);
+ 
+-- 8.Identify the Client Name(s) whose projects have a total combined hours worked exceeding 500 hours.
+
+select client_name , sum(hours_worked) as total_hours from projects join assignments on projects.project_id=assignments.project_id group by  client_name having sum(hours_worked) >500;
+
+-- 9.For each Location, find the Department Name with the highest count of employees.~
+
+
+
+select location_id , dept_name , count(employee_id) as total_employees from departments
+ join employees on departments.dept_id = employees.dept_id group by location_id ,dept_name order by total_employees desc;
+
+-- 10.Calculate the total number of employees assigned to each Project, but only include projects that have more than 5 employees assigned.Advanced Filtering
+
+
+
+select project_name, count(employee_id) as all_emp from projects join assignments 
+on projects.project_id = assignments.project_id 
+group by project_name having count(employee_id) > 5;
+
+
+
+-- 12.Retrieve the Department Name(s) that have employees assigned to more than one project.
+
+
+
+select dept_name from departments join employees on departments.dept_id = employees.dept_id 
+join assignments on employees.employee_id = assignments.employee_id group by dept_name having count(distinct project_id)> 1;
+
+-- 13.Write a query to list the Employee Name and Project Name for any employee who has worked less than 10 hours on a project.
+
+
+select employee_name, project_name from employees 
+join assignments on employees.employee_id = assignments.employee_id 
+join projects on assignments.project_id = projects.project_id where hours_worked < 10;
+
+-- 14.Find the Project Name(s) that have no assigned employees.
+
+
+select project_name from projects left join assignments on projects.project_id = assignments.project_id where assignment_id ;
+
+-- 15.Select the Employee Name(s) whose salary is greater than the maximum salary in their own department.Dates and MySQL Specific Functions~
+
+from employees  where salary >( select max(salary) from employees where dept_id = employees.dept_id);
+
+-- 16. Assuming the Assignments table has a start_date column, find the Employee Name and their oldest project start date.
+
+select employee_name, min(assignments.start_date) as ol_project from employees 
+join assignments on employees.employee_id = assignments.employee_id group by employee_name
+;
+
+-- 17.Write a MySQL query using the DATE_FORMAT function to list all projects that were active in the year 2023.
+
+select project_name, start_date from projects where date_format(start_date,'%Y') = '2023';
+
+
+
+-- 21.List the Employee Name and their Manager's Name, even if the employee has no manager, or if a potential manager has no employees reporting to them.
+
+
+select employees.employee_name as employee, manager.employee_name as manager from employees  left join employees  on employees.manager_id = manager.employee_id;
+
